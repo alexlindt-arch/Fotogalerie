@@ -356,11 +356,13 @@ dialog.lightbox::backdrop {
   flex-direction: column;
   align-items: center;
   gap: 0.75rem;
+  height: 375px;
+  justify-content: center;
 }
 
 .lightbox__image {
   width: 100%;
-  max-height: 375px;
+  height: 100%;
   object-fit: contain;
   border-radius: var(--radius-small);
   display: block;
@@ -474,8 +476,8 @@ dialog.lightbox::backdrop {
     align-self: stretch;
   }
 
-  .lightbox__image {
-    max-height: min(375px, calc(100vh - 15rem));
+  .lightbox__figure {
+    height: min(375px, calc(100vh - 15rem));
   }
 
   .lightbox__footer {
