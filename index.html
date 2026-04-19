@@ -65,14 +65,12 @@
           Your personal <br class="mobile-break">photo album
         </h1>
 
-        <div
+        <ul
           id="gallery-grid"
           class="gallery-grid"
-          role="list"
           aria-label="Bildergalerie"
         >
-          <!-- Thumbnails werden per JavaScript gerendert -->
-        </div>
+        </ul>
       </section>
     </main>
 
@@ -116,7 +114,7 @@
     </footer>
 
     <!-- Lightbox-Dialog -->
-    <dialog class="lightbox" id="lightbox" aria-label="Bilddetailansicht">
+    <dialog class="lightbox" id="lightbox" aria-labelledby="lightbox-title">
       <div class="lightbox__inner">
         <header class="lightbox__header">
           <button class="lightbox__close icon-btn" aria-label="Lightbox schließen">
@@ -135,11 +133,12 @@
               />
             </svg>
           </button>
-          <p class="lightbox__title" id="lightbox-title"></p>
+          <h2 class="lightbox__title" id="lightbox-title"></h2>
         </header>
 
         <figure class="lightbox__figure">
           <img class="lightbox__image" src="" alt="" />
+          <figcaption class="lightbox__caption" id="lightbox-caption"></figcaption>
         </figure>
 
         <footer class="lightbox__footer">

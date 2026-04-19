@@ -133,6 +133,7 @@ body {
   justify-content: center;
   gap: 16px;
   width: 100%;
+  list-style: none;
 }
 
 /* ===================================
@@ -363,6 +364,12 @@ dialog.lightbox::backdrop {
   object-fit: contain;
   border-radius: var(--radius-small);
   display: block;
+}
+
+.lightbox__caption {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  text-align: center;
 }
 
 
