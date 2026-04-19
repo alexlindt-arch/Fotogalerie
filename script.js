@@ -1,4 +1,4 @@
-/** DOM-Referenzen */
+/** DOM references */
 const GALLERY_GRID = document.getElementById("gallery-grid");
 const LIGHTBOX = document.getElementById("lightbox");
 const LIGHTBOX_IMAGE = LIGHTBOX.querySelector(".lightbox__image");
@@ -6,7 +6,7 @@ const LIGHTBOX_COUNTER = LIGHTBOX.querySelector(".lightbox__counter");
 const LIGHTBOX_TITLE = document.getElementById("lightbox-title");
 const LIGHTBOX_CAPTION = document.getElementById("lightbox-caption");
 
-/** Foto-Datensatz – Bilder liegen im Ordner images/ */
+/** Photo data – images are located in the images/ folder */
 const PHOTOS = [
   { id: 1,  src: "images/alaska-810433_1280.jpg",          alt: "Verschneite Landschaft in Alaska" },
   { id: 2,  src: "images/anime-8788959_1280.jpg",           alt: "Anime-Illustration einer Figur" },
@@ -24,19 +24,19 @@ const PHOTOS = [
 
 let currentIndex = 0;
 
-/** Initialisiert die Galerie */
+/** Initializes the gallery */
 function init() {
   GALLERY_GRID.innerHTML = renderGallery();
   addGalleryListeners();
   addLightboxListeners();
 }
 
-/** Gibt den HTML-String aller Thumbnails zurück */
+/** Returns the HTML string of all thumbnails */
 function renderGallery() {
   return PHOTOS.map((photo, index) => renderThumbnail(photo, index)).join("");
 }
 
-/** Gibt den HTML-String eines einzelnen Thumbnails zurück */
+/** Returns the HTML string of a single thumbnail */
 function renderThumbnail(photo, index) {
   return `
     <li class="gallery-item">
@@ -65,13 +65,13 @@ function renderThumbnail(photo, index) {
   `;
 }
 
-/** Registriert den Click-Listener für die Thumbnail-Galerie */
+/** Registers click listeners for the thumbnail gallery */
 function addGalleryListeners() {
   GALLERY_GRID.addEventListener("click", handleThumbnailClick);
   GALLERY_GRID.addEventListener("click", handleFavoriteClick);
 }
 
-/** Schaltet den Favoritenstatus eines Thumbnails um */
+/** Toggles the favorite status of a thumbnail */
 function handleFavoriteClick(event) {
   const btn = event.target.closest(".gallery-item__favorite");
   if (!btn) return;
@@ -80,7 +80,7 @@ function handleFavoriteClick(event) {
   btn.setAttribute("aria-label", !pressed ? "Aus Favoriten entfernen" : "Zu Favoriten hinzufügen");
 }
 
-/** Verarbeitet den Klick auf ein Thumbnail */
+/** Handles a click on a thumbnail */
 function handleThumbnailClick(event) {
   const button = event.target.closest(".gallery-item__button");
   if (!button) return;
@@ -88,13 +88,13 @@ function handleThumbnailClick(event) {
   openLightbox(currentIndex);
 }
 
-/** Öffnet die Lightbox mit dem Bild am gegebenen Index */
+/** Opens the lightbox with the image at the given index */
 function openLightbox(index) {
   updateLightboxContent(PHOTOS[index]);
   LIGHTBOX.showModal();
 }
 
-/** Aktualisiert Bild, Titel, Caption und Counter in der Lightbox */
+/** Updates image, title and counter in the lightbox */
 function updateLightboxContent(photo) {
   LIGHTBOX_IMAGE.src = photo.src;
   LIGHTBOX_IMAGE.alt = photo.alt;
@@ -103,24 +103,24 @@ function updateLightboxContent(photo) {
   LIGHTBOX_CAPTION.textContent = photo.alt;
 }
 
-/** Schließt die Lightbox */
+/** Closes the lightbox */
 function closeLightbox() {
   LIGHTBOX.close();
 }
 
-/** Wechselt zum vorherigen Bild (zyklisch) */
+/** Shows the previous image (cyclic) */
 function showPrevious() {
   currentIndex = (currentIndex - 1 + PHOTOS.length) % PHOTOS.length;
   updateLightboxContent(PHOTOS[currentIndex]);
 }
 
-/** Wechselt zum nächsten Bild (zyklisch) */
+/** Shows the next image (cyclic) */
 function showNext() {
   currentIndex = (currentIndex + 1) % PHOTOS.length;
   updateLightboxContent(PHOTOS[currentIndex]);
 }
 
-/** Registriert alle Lightbox-Event-Listener */
+/** Registers all lightbox event listeners */
 function addLightboxListeners() {
   LIGHTBOX.querySelector(".lightbox__close").addEventListener("click", closeLightbox);
   LIGHTBOX.querySelector(".lightbox__nav--prev").addEventListener("click", showPrevious);
@@ -129,12 +129,12 @@ function addLightboxListeners() {
   document.addEventListener("keydown", handleKeydown);
 }
 
-/** Schließt die Lightbox bei Klick auf den Hintergrund */
+/** Closes the lightbox when clicking the backdrop */
 function handleBackdropClick(event) {
   if (event.target === LIGHTBOX) closeLightbox();
 }
 
-/** Navigiert per Pfeiltasten; ESC wird nativ vom <dialog> behandelt */
+/** Navigates with arrow keys; ESC is handled natively by <dialog> */
 function handleKeydown(event) {
   if (!LIGHTBOX.open) return;
   if (event.key === "ArrowLeft") showPrevious();

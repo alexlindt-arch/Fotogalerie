@@ -503,7 +503,7 @@ dialog.lightbox::backdrop {
     justify-content: center;
   }
 
-  /* Platz für den fixierten Footer am Seitenende */
+  /* Space for the fixed footer at the bottom */
   .site-main {
     padding: 1.5rem 1rem calc(103px + 1rem);
   }
