@@ -296,7 +296,7 @@ body {
 dialog.lightbox {
   width: 688px;
   max-width: calc(100vw - 2rem);
-  max-height: calc(100vh - 2rem);
+  height: min(700px, calc(100svh - 2rem));
   margin: auto;
   border: none;
   border-radius: var(--radius-modal);
@@ -316,30 +316,35 @@ dialog.lightbox::backdrop {
 .lightbox__inner {
   display: flex;
   flex-direction: column;
+  height: 100%;
   padding: 3.5rem 4rem;
   gap: 3rem;
+  box-sizing: border-box;
 }
 
 /* ===================================
    Lightbox Header
 =================================== */
 .lightbox__header {
-  display: flex;
+  display: grid;
+  grid-template-columns: 2rem 1fr 2rem;
   align-items: center;
-  justify-content: space-between;
+  gap: 0.5rem;
 }
 
-.lightbox__title { order: 0; }
-.lightbox__close { order: 1; }
-
 .lightbox__title {
+  grid-column: 2;
   font-size: 1.5rem;
   font-weight: 700;
   color: var(--color-text);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  max-width: 80%;
+  text-align: center;
+}
+
+.lightbox__close {
+  grid-column: 3;
 }
 
 /* Close button uses .icon-btn base styles (32×32) */
@@ -352,26 +357,24 @@ dialog.lightbox::backdrop {
    Lightbox Figure
 =================================== */
 .lightbox__figure {
+  flex: 1;
+  min-height: 0;
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  gap: 0.75rem;
-  height: 400px;
 }
 
 .lightbox__image {
   flex: 1;
   min-height: 0;
   width: 100%;
-  object-fit: contain;
+  object-fit: cover;
   border-radius: var(--radius-small);
   display: block;
 }
 
 .lightbox__caption {
-  font-size: 0.875rem;
-  color: var(--color-text-muted);
-  text-align: center;
+  display: none;
 }
 
 
@@ -455,9 +458,9 @@ dialog.lightbox::backdrop {
 
 @media (max-width: 600px) {
 
-  /* Lightbox auf schmalen Screens */
   dialog.lightbox {
-    overflow-y: auto;
+    max-width: calc(100vw - 1rem);
+    height: min(700px, calc(100svh - 1rem));
   }
 
   .lightbox__inner {
@@ -466,18 +469,21 @@ dialog.lightbox::backdrop {
   }
 
   .lightbox__header {
+    display: flex;
     flex-direction: column;
     align-items: flex-end;
     gap: 8px;
   }
 
-  .lightbox__title {
-    max-width: 100%;
-    align-self: stretch;
+  .lightbox__close {
+    order: -1;
+    grid-column: unset;
   }
 
-  .lightbox__figure {
-    height: min(400px, calc(100vh - 15rem));
+  .lightbox__title {
+    grid-column: unset;
+    width: 100%;
+    text-align: center;
   }
 
   .lightbox__footer {
