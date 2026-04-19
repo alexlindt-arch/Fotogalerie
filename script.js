@@ -8,7 +8,7 @@ const LIGHTBOX_CAPTION = document.getElementById("lightbox-caption");
 
 /** Photo data – images are located in the images/ folder */
 const PHOTOS = [
-  { id: 1,  src: "images/alaska-810433_1280.jpg",          alt: "Verschneite Landschaft in Alaska" },
+  { id: 1,  src: "images/alaska-810433_1280.jpg",           alt: "Verschneite Landschaft in Alaska" },
   { id: 2,  src: "images/anime-8788959_1280.jpg",           alt: "Anime-Illustration einer Figur" },
   { id: 3,  src: "images/atmosphere-8752835_1280.jpg",      alt: "Atmosphärische Stimmungsaufnahme" },
   { id: 4,  src: "images/blue-tit-8521052_1280.jpg",        alt: "Blaumeise auf einem Ast" },
@@ -27,8 +27,7 @@ let currentIndex = 0;
 /** Initializes the gallery */
 function init() {
   GALLERY_GRID.innerHTML = renderGallery();
-  addGalleryListeners();
-  addLightboxListeners();
+  document.addEventListener("keydown", handleKeydown);
 }
 
 /** Returns the HTML string of all thumbnails */
@@ -36,33 +35,17 @@ function renderGallery() {
   return PHOTOS.map((photo, index) => renderThumbnail(photo, index)).join("");
 }
 
-
-/** Registers click listeners for the thumbnail gallery */
-function addGalleryListeners() {
-  GALLERY_GRID.addEventListener("click", handleThumbnailClick);
-  GALLERY_GRID.addEventListener("click", handleFavoriteClick);
-}
-
 /** Toggles the favorite status of a thumbnail */
-function handleFavoriteClick(event) {
-  const btn = event.target.closest(".gallery-item__favorite");
-  if (!btn) return;
+function toggleFavorite(btn) {
   const pressed = btn.getAttribute("aria-pressed") === "true";
   btn.setAttribute("aria-pressed", String(!pressed));
   btn.setAttribute("aria-label", !pressed ? "Aus Favoriten entfernen" : "Zu Favoriten hinzufügen");
 }
 
-/** Handles a click on a thumbnail */
-function handleThumbnailClick(event) {
-  const button = event.target.closest(".gallery-item__button");
-  if (!button) return;
-  currentIndex = parseInt(button.dataset.index, 10);
-  openLightbox(currentIndex);
-}
-
 /** Opens the lightbox with the image at the given index */
 function openLightbox(index) {
-  updateLightboxContent(PHOTOS[index]);
+  currentIndex = index;
+  updateLightboxContent(PHOTOS[currentIndex]);
   LIGHTBOX.showModal();
 }
 
@@ -80,25 +63,14 @@ function closeLightbox() {
   LIGHTBOX.close();
 }
 
-/** Shows the previous image (cyclic) */
-function showPrevious() {
-  currentIndex = (currentIndex - 1 + PHOTOS.length) % PHOTOS.length;
+/** Navigates to the previous or next image */
+function navigate(direction) {
+  if (direction === "left") {
+    currentIndex = (currentIndex - 1 + PHOTOS.length) % PHOTOS.length;
+  } else {
+    currentIndex = (currentIndex + 1) % PHOTOS.length;
+  }
   updateLightboxContent(PHOTOS[currentIndex]);
-}
-
-/** Shows the next image (cyclic) */
-function showNext() {
-  currentIndex = (currentIndex + 1) % PHOTOS.length;
-  updateLightboxContent(PHOTOS[currentIndex]);
-}
-
-/** Registers all lightbox event listeners */
-function addLightboxListeners() {
-  LIGHTBOX.querySelector(".lightbox__close").addEventListener("click", closeLightbox);
-  LIGHTBOX.querySelector(".lightbox__nav--prev").addEventListener("click", showPrevious);
-  LIGHTBOX.querySelector(".lightbox__nav--next").addEventListener("click", showNext);
-  LIGHTBOX.addEventListener("click", handleBackdropClick);
-  document.addEventListener("keydown", handleKeydown);
 }
 
 /** Closes the lightbox when clicking the backdrop */
@@ -109,8 +81,6 @@ function handleBackdropClick(event) {
 /** Navigates with arrow keys; ESC is handled natively by <dialog> */
 function handleKeydown(event) {
   if (!LIGHTBOX.open) return;
-  if (event.key === "ArrowLeft") showPrevious();
-  if (event.key === "ArrowRight") showNext();
+  if (event.key === "ArrowLeft") navigate("left");
+  if (event.key === "ArrowRight") navigate("right");
 }
-
-init();

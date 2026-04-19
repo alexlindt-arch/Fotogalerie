@@ -4,7 +4,7 @@ function renderThumbnail(photo, index) {
     <li class="gallery-item">
       <button
         class="gallery-item__button"
-        data-index="${index}"
+        onclick="openLightbox(${index})"
         aria-label="${photo.alt} in Großansicht öffnen"
       >
         <img
@@ -16,6 +16,7 @@ function renderThumbnail(photo, index) {
       </button>
       <button
         class="gallery-item__favorite icon-btn"
+        onclick="toggleFavorite(this)"
         aria-label="Zu Favoriten hinzufügen"
         aria-pressed="false"
       >
