@@ -365,7 +365,6 @@ dialog.lightbox::backdrop {
   width: 100%;
   object-fit: contain;
   border-radius: var(--radius-small);
-  background-color: var(--color-page-bg);
   display: block;
 }
 
